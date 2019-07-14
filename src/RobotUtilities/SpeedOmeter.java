@@ -1,7 +1,7 @@
 package RobotUtilities;
 
-import static com.company.Robot.worldAngle_rad;
-import static treamcode.MathFunctions.AngleWrap;
+import static sbfServer.Robot.worldAngle_rad;
+import static teamcode.MathFunctions.AngleWrap;
 
 public class SpeedOmeter {
     private static long lastUpdateStartTime = 0;

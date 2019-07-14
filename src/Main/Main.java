@@ -1,61 +1,97 @@
 package Main;
 
-import RobotUtilities.MovementVars;
-import com.company.ComputerDebugging;
-import com.company.FloatPoint;
-import com.company.Robot;
-import com.company.UdpServer;
-import treamcode.MyOpMode;
-import treamcode.OpMode;
+import processing.core.PVector;
+import sbfServer.ComputerDebugging;
+import sbfServer.FloatPoint;
+import sbfServer.Robot;
+import teamcode.MyOpMode;
+import teamcode.OpMode;
+import teamcode.Path;
+import teamcode.Vehicle;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.util.Random;
 
-public class Main {
-
-
-    public static void main(String[] args) {
+public class Main
+{
+    public static void main(String[] args)
+    {
         new Main().run();
     }
+
+    PVector initialPos = new PVector(158, 200);
+    Vehicle car = new Vehicle(initialPos, -45, (float)4.25, (float).75);
+    Path myPath;
+    float height = 358;
+    float width = 358;
 
     /**
      * The program runs here
      */
-    public void run(){
+    public void run()
+    {
         //this is a test of the coding
         ComputerDebugging computerDebugging = new ComputerDebugging();
         Robot robot = new Robot();
+
+
         OpMode opMode = new MyOpMode();
         opMode.init();
+        newPath();
 
         ComputerDebugging.clearLogPoints();
 
 
         long startTime = System.currentTimeMillis();
-        try {
+        try
+        {
             Thread.sleep(1000);
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e)
+        {
             e.printStackTrace();
         }
-        while(true){
+        while (true)
+        {
 
-            opMode.loop();
+            //opMode.loop();
+            car.follow(myPath);
 
-            try {
-                Thread.sleep(30);
-            } catch (InterruptedException e) {
+            try
+            {
+                Thread.sleep(50);
+            }
+            catch (InterruptedException e)
+            {
                 e.printStackTrace();
             }
-            robot.update();
-            ComputerDebugging.sendRobotLocation(robot);
-            ComputerDebugging.sendLogPoint(new FloatPoint(Robot.worldXPosition,Robot.worldYPosition));
+            //robot.update();
+            car.update();
+            ComputerDebugging.sendRobotLocation(car);
+            ComputerDebugging.sendLogPoint(new FloatPoint(car.getX(), car.getY()));
             ComputerDebugging.markEndOfUpdate();
         }
     }
 
+    public void newPath()
+    {
+        // A path is a series of connected points
+        // A more sophisticated path might be a curve
+        Random randomFloat = new Random();
+        myPath = new Path();
+        myPath.addPoint(130,275);
+        myPath.addPoint(27,150, 90);
+        myPath.addPoint(27,50);
+        myPath.addPoint(27, 158);
+        myPath.addPoint(150,275);
+        myPath.addPoint( 130, 295);
+        myPath.addPoint(150, 275);
+        myPath.addPoint( 130, 225);
+        myPath.addPoint(150, 275);
+        myPath.addPoint( 130, 295);
+        myPath.addPoint(150, 275);
+        myPath.addPoint( 130, 225);
+        myPath.addPoint(150, 275);
+        myPath.addPoint( 130, 295);
 
-
-
+    }
 }
