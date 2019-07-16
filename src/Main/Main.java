@@ -78,20 +78,20 @@ public class Main
         // A more sophisticated path might be a curve
         Random randomFloat = new Random();
         myPath = new Path();
-        myPath.addPoint(130,275);
-        myPath.addPoint(27,150);
-        myPath.addPoint(27,50);
-        myPath.addPoint(27, 158);
-        myPath.addPoint(150,275);
-        myPath.addPoint( 130, 295);
-        myPath.addPoint(150, 275);
-        myPath.addPoint( 130, 225);
-        myPath.addPoint(150, 275);
-        myPath.addPoint( 130, 295);
-        myPath.addPoint(150, 275);
-        myPath.addPoint( 130, 225);
-        myPath.addPoint(150, 275);
-        myPath.addPoint( 130, 295);
+        myPath.addPoint(130,275, -90);
+        myPath.addPoint(27,150, -90);
+        myPath.addPoint(27,50,-90);
+        myPath.addPoint(27, 158,-225);
+        myPath.addPoint(150,275,-225);
+        myPath.addPoint( 130, 295,-225);
+        myPath.addPoint(150, 275,-225);
+        myPath.addPoint( 130, 225,-225);
+        myPath.addPoint(150, 275,-225);
+        myPath.addPoint( 130, 295,-225);
+        myPath.addPoint(150, 275,-225);
+        myPath.addPoint( 130, 225,-225);
+        myPath.addPoint(150, 275,-225);
+        myPath.addPoint( 130, 295,-225);
 
     }
 }

@@ -84,7 +84,7 @@ public class Vehicle
 
     public float getHeading()
     {
-        return heading;
+        return (float) Math.toRadians(heading);
     }
 
     // This function implements Craig Reynolds' path following algorithm
@@ -283,10 +283,17 @@ public class Vehicle
         neededAccel.limit(maxforce);  // Limit to maximum steering force
         acceleration.add(neededAccel);
 
-        float neededAngularVelocity = heading - hdg;
-        float neededAngularAccel = angularVelocity - neededAngularVelocity;
-        angularAcceleration += neededAngularAccel;
-        angularAcceleration = Range.clip(angularAcceleration, (float)-.001, (float).001);
+        float neededAngularVelocity = hdg - heading;
+
+        if ( Math.abs(neededAngularVelocity) < 90)
+        {
+            float velMag = (float) (0.0 + (5 - 0.0) * ((Math.abs(neededAngularVelocity) - 0.0) / (30.0 - 0)));
+            neededAngularVelocity = velMag * Math.signum(neededAngularVelocity);
+        }
+
+        float neededAngularAccel = neededAngularVelocity - angularVelocity;
+        angularAcceleration = neededAngularAccel;
+        angularAcceleration = Range.clip(angularAcceleration, (float)-1, (float)1);
     }
 
 }
