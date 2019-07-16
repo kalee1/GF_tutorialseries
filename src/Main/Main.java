@@ -79,7 +79,7 @@ public class Main
         Random randomFloat = new Random();
         myPath = new Path();
         myPath.addPoint(130,275);
-        myPath.addPoint(27,150, 90);
+        myPath.addPoint(27,150);
         myPath.addPoint(27,50);
         myPath.addPoint(27, 158);
         myPath.addPoint(150,275);

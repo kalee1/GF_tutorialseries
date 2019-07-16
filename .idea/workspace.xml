@@ -5,39 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06f710b7-470c-4d99-91ff-deca9af1f0aa" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/processing_core_4_0_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/teamcode/CSVWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PurePursuitTutorial.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PurePursuitTutorial.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/Main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PurePursuitTutorial/Main/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/RobotUtilities/SpeedOmeter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PurePursuitTutorial/RobotUtilities/SpeedOmeter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/Solution/CurvePoint.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/Solution/MovementEssentials.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/Solution/MyMath.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/com/company/ComputerDebugging.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/com/company/FloatPoint.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/com/company/Range.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/com/company/Robot.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/com/company/UdpServer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/treamcode/MathFunctions.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/treamcode/MyOpMode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/treamcode/OpMode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/treamcode/PathPoint.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PurePursuitTutorial/treamcode/RobotMovement.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RobotUtilities/SpeedOmeter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RobotUtilities/SpeedOmeter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/ComputerDebugging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sbfServer/ComputerDebugging.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/FloatPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sbfServer/FloatPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/Range.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sbfServer/Range.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sbfServer/Robot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/UdpServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sbfServer/UdpServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/treamcode/MathFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/teamcode/MathFunctions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/treamcode/MyOpMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/teamcode/MyOpMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/treamcode/OpMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/teamcode/OpMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/treamcode/PathPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/teamcode/PathPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/treamcode/RobotMovement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/teamcode/RobotMovement.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -57,11 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/teamcode/Path.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="44" column="30" lean-forward="true" selection-start-line="44" selection-start-column="30" selection-end-line="44" selection-end-column="30" />
+            <state relative-caret-position="120">
+              <caret line="12" column="17" lean-forward="true" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -70,30 +40,12 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Main/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="89" column="35" lean-forward="true" selection-start-line="89" selection-start-column="35" selection-end-line="89" selection-end-column="35" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/teamcode/Vehicle.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="431">
-              <caret line="280" column="9" lean-forward="true" selection-start-line="280" selection-start-column="9" selection-end-line="280" selection-end-column="9" />
+            <state relative-caret-position="4005">
+              <caret line="280" column="9" selection-start-line="280" selection-start-column="9" selection-end-line="280" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1758#1759#0" expanded="true" />
-                <element signature="e#1791#1792#0" expanded="true" />
-                <element signature="e#1822#1823#0" expanded="true" />
-                <element signature="e#1855#1856#0" expanded="true" />
-                <element signature="e#1892#1893#0" expanded="true" />
-                <element signature="e#1933#1934#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -154,8 +106,8 @@
         <option value="$PROJECT_DIR$/src/sbfServer/ComputerDebugging.java" />
         <option value="$PROJECT_DIR$/src/sbfServer/CSVWriter.java" />
         <option value="$PROJECT_DIR$/src/teamcode/Path.java" />
-        <option value="$PROJECT_DIR$/src/Main/Main.java" />
         <option value="$PROJECT_DIR$/src/teamcode/Vehicle.java" />
+        <option value="$PROJECT_DIR$/src/Main/Main.java" />
       </list>
     </option>
   </component>
@@ -166,7 +118,6 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="828" />
@@ -177,7 +128,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -213,6 +163,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -284,9 +235,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="23" width="1440" height="828" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="828" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49307957" visible="true" weight="0.27682403" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49307957" visible="true" weight="0.29613733" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -627,16 +578,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/teamcode/Path.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="44" column="30" lean-forward="true" selection-start-line="44" selection-start-column="30" selection-end-line="44" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sbfServer/Range.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="645">
@@ -646,8 +587,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="89" column="35" lean-forward="true" selection-start-line="89" selection-start-column="35" selection-end-line="89" selection-end-column="35" />
+        <state relative-caret-position="11">
+          <caret line="58" column="15" lean-forward="true" selection-start-line="58" selection-start-column="15" selection-end-line="58" selection-end-column="15" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/teamcode/Path.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="12" column="17" lean-forward="true" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -656,16 +607,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/teamcode/Vehicle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="280" column="9" lean-forward="true" selection-start-line="280" selection-start-column="9" selection-end-line="280" selection-end-column="9" />
+        <state relative-caret-position="4005">
+          <caret line="280" column="9" selection-start-line="280" selection-start-column="9" selection-end-line="280" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1758#1759#0" expanded="true" />
-            <element signature="e#1791#1792#0" expanded="true" />
-            <element signature="e#1822#1823#0" expanded="true" />
-            <element signature="e#1855#1856#0" expanded="true" />
-            <element signature="e#1892#1893#0" expanded="true" />
-            <element signature="e#1933#1934#0" expanded="true" />
           </folding>
         </state>
       </provider>
