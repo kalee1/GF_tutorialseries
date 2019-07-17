@@ -19,7 +19,7 @@ public class Main
     }
 
     PVector initialPos = new PVector(158, 200);
-    Vehicle car = new Vehicle(initialPos, -45, (float)4.25, (float).75);
+    Vehicle car = new Vehicle(initialPos, -45, (float)4.25, (float)1);
     Path myPath;
     float height = 358;
     float width = 358;

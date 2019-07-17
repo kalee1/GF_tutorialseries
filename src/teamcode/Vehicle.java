@@ -16,59 +16,64 @@ import java.util.List;
 
 public class Vehicle
 {
+    // Vectors and parameters used to track the vehicle's motion and position.
+    private PVector position;
+    private PVector velocity;
+    private PVector acceleration;
+    private float maxAccel;
+    private float maxSpeed;
 
-    // All the usual stuff
-    PVector position;
-    PVector velocity;
-    PVector acceleration;
-    float maxAccel;    // Maximum steering force
-    float maxSpeed;    // Maximum speed
+    // Parameters that are used to track the vehicle's orientation.
+    private float heading;
+    private float angularVelocity;
+    private float angularAcceleration;
 
-    float heading;
-    float angularVelocity;
-    float angularAcceleration;
+    // Parameters used to track where along the path the vehicle is.
+    private boolean arriving = false;
+    private int currentPathSeg = 0;
+    private float closingDist = (float)1000000.0;
 
-
-    boolean arriving = false;
-    int currentPathSeg = 0;
-    int numPathPoints = 0;
-    float closingDist = (float)1000000.0;
-    CSVWriter logFile;
-    List<String> rowData;
+    // Used for logging debug data.
+    private CSVWriter logFile;
+    private List<String> rowData;
+    private boolean debug = false;
 
     // Constructor initialize all values
-    public Vehicle(PVector l, float heading, float ms, float mf)
+    public Vehicle(PVector l, float heading, float maxspd, float maxaccel)
     {
         position = l.copy();
-        maxSpeed = ms;
-        maxAccel = mf;
+        maxSpeed = maxspd;
+        maxAccel = maxaccel;
         acceleration = new PVector(0, 0);
         velocity = new PVector(-maxSpeed, maxSpeed);
 
-        logFile = new CSVWriter();
-        rowData = new ArrayList<String>();
+        if ( debug )
+        {
+            logFile = new CSVWriter();
+            rowData = new ArrayList<String>();
 
-        rowData.add(String.valueOf("position.x"));
-        rowData.add(String.valueOf("position.y"));
-        rowData.add(String.valueOf("position.heading"));
+            rowData.add(String.valueOf("position.x"));
+            rowData.add(String.valueOf("position.y"));
+            rowData.add(String.valueOf("position.heading"));
 
-        rowData.add(String.valueOf("predictedPosition.x"));
-        rowData.add(String.valueOf("predictedPosition.y"));
-        rowData.add("closingDistance");
+            rowData.add(String.valueOf("predictedPosition.x"));
+            rowData.add(String.valueOf("predictedPosition.y"));
+            rowData.add("closingDistance");
 
-        rowData.add(String.valueOf("normalPoint.x"));
-        rowData.add(String.valueOf("normalPoint.y"));
+            rowData.add(String.valueOf("normalPoint.x"));
+            rowData.add(String.valueOf("normalPoint.y"));
 
-        rowData.add(String.valueOf("a.x"));
-        rowData.add(String.valueOf("a.y"));
+            rowData.add(String.valueOf("a.x"));
+            rowData.add(String.valueOf("a.y"));
 
-        rowData.add(String.valueOf("b.x"));
-        rowData.add(String.valueOf("b.y"));
+            rowData.add(String.valueOf("b.x"));
+            rowData.add(String.valueOf("b.y"));
 
-        rowData.add(String.valueOf("targetVector.x"));
-        rowData.add(String.valueOf("targetVector.y"));
-//        logFile.addRow(rowData);
-        rowData.clear();
+            rowData.add(String.valueOf("targetVector.x"));
+            rowData.add(String.valueOf("targetVector.y"));
+            logFile.addRow(rowData);
+            rowData.clear();
+        }
 
     }
 
@@ -93,11 +98,10 @@ public class Vehicle
     //
     public void follow(Path thePath)
     {
-        numPathPoints = thePath.points.size();
 
         // Based on which segment I'm on, I need to set a flag so that the seek method will know that is has to
         // arrive instead of just seeking.
-        if (currentPathSeg == (numPathPoints - 2))
+        if (currentPathSeg == (thePath.points.size() - 2))
         {
             arriving = true;
         }
@@ -120,7 +124,7 @@ public class Vehicle
         closingDist = PVector.dist(position, b);
 
         //
-        // Step 1
+        // Step 1 - Preduct Future Position
         //
         // Predict position on the path a small amount ahead.
         // The predicted position is tweaked based on a few conditions below.
@@ -153,23 +157,26 @@ public class Vehicle
             // so I go ahead and set the predicted position ot my current position.
             predictedPosition = position.copy();
         }
-        rowData.add(String.valueOf(position.x));
-        rowData.add(String.valueOf(position.y));
-        rowData.add(String.valueOf(position.heading()));
 
-        rowData.add(String.valueOf(predictedPosition.x));
-        rowData.add(String.valueOf(predictedPosition.y));
+        if (debug)
+        {
+            rowData.add(String.valueOf(position.x));
+            rowData.add(String.valueOf(position.y));
+            rowData.add(String.valueOf(position.heading()));
+
+            rowData.add(String.valueOf(predictedPosition.x));
+            rowData.add(String.valueOf(predictedPosition.y));
+            rowData.add(String.valueOf(closingDist));
+        }
 
         //
-        // Step 2
+        // Step 2 - Establish Normal Point on Path
         //
         // Now we must find the normal to the path from the predicted position.
         // This will give me the point on the path segment which is closest
         // to my current position.  This point will help me know where to set
         // my target next.
         //
-        rowData.add(String.valueOf(closingDist));
-
         normalPoint = getNormalPoint(predictedPosition, a, b);
 
         // I need to do some checks on the normal point, because it's possible
@@ -190,12 +197,14 @@ public class Vehicle
             // point to be a copy of b so as not to go beyond it.
             normalPoint = b.copy();
         }
-
-        rowData.add(String.valueOf(normalPoint.x));
-        rowData.add(String.valueOf(normalPoint.y));
+        if (debug)
+        {
+            rowData.add(String.valueOf(normalPoint.x));
+            rowData.add(String.valueOf(normalPoint.y));
+        }
 
         //
-        // Step 3
+        // Step 3 - Establish Target Point
         //
         // Now that I have a good normal point defined, use this normal point to
         // set my target down the path a small amount.
@@ -224,24 +233,22 @@ public class Vehicle
             targetVector.add(pathDir);
         }
 
+        if (debug)
+        {
+            rowData.add(String.valueOf(a.x));
+            rowData.add(String.valueOf(a.y));
 
-        rowData.add(String.valueOf(a.x));
-        rowData.add(String.valueOf(a.y));
+            rowData.add(String.valueOf(b.x));
+            rowData.add(String.valueOf(b.y));
 
-        rowData.add(String.valueOf(b.x));
-        rowData.add(String.valueOf(b.y));
-
-        rowData.add(String.valueOf(targetVector.x));
-        rowData.add(String.valueOf(targetVector.y));
-        logFile.addRow(rowData);
-
-
-//        System.out.printf("Car    Pt: %.2f, %.2f ", position.x, position.y);
-//        System.out.println("Current Path Segment: " + currentPathSeg );
-//        System.out.println();
+            rowData.add(String.valueOf(targetVector.x));
+            rowData.add(String.valueOf(targetVector.y));
+            logFile.addRow(rowData);
+            rowData.clear();
+        }
 
         //
-        // Step 4
+        // Step 4 - Seek Target Point
         //
         // Now that I have a good target defined, seek it out.  Also reference the
         // path segment-specific preferred heading and maxiumum speed. This allows
@@ -257,13 +264,13 @@ public class Vehicle
         {
             currentPathSeg++;
         }
-        rowData.clear();
+
     }
 
 
     // A function to get the normal point from a point (p) to a line segment (a-b)
     // This function could be optimized to make fewer new Vector objects
-    PVector getNormalPoint(PVector p, PVector a, PVector b)
+    private PVector getNormalPoint(PVector p, PVector a, PVector b)
     {
         // Vector from a to p
         PVector ap = PVector.sub(p, a);
@@ -272,8 +279,9 @@ public class Vehicle
         ab.normalize(); // Normalize the line
         // Project vector "diff" onto line by using the dot product
         ab.mult(ap.dot(ab));
-        PVector normalPoint = PVector.add(a, ab);
-        return normalPoint;
+
+        return PVector.add(a, ab);
+
     }
 
     // Method to update position
@@ -293,23 +301,19 @@ public class Vehicle
     }
 
     // A method that calculates and applies steering towards a target
-    void seek(PVector target, float hdg, float maxspd)
+    private void seek(PVector target, float hdg, float maxspd)
     {
         // The difference between my target position and my current position is defined
         // as my needed velocity.
         PVector neededVelocity = PVector.sub(target, position);  // A vector pointing from the position to the target
 
-        //System.out.println(desired);
-
         // Capture the magnitude of my needed velocity.
         float v = neededVelocity.mag();
-//        System.out.printf("neededvelocity mag: %.2f\n", v);
         // If the magnitude of needed velocity equals 0, skip out of here because I don't need to move.
         if (v == 0)
         {
             return;
         }
-//        System.out.printf("closing distance: %.2f\n", closingDist);
 
         // If I am close to my end point of the path, I need to slow down.
         // Scale  my velocity in proportion to my distance from my final target.
@@ -344,9 +348,8 @@ public class Vehicle
             neededAngularVelocity = velMag * Math.signum(neededAngularVelocity);
         }
 
-        float neededAngularAccel = neededAngularVelocity - angularVelocity;
-        angularAcceleration = neededAngularAccel;
-        angularAcceleration = Range.clip(angularAcceleration, (float)-1, (float)1);
+        angularAcceleration = neededAngularVelocity - angularVelocity;
+        angularAcceleration = Range.clip(angularAcceleration, (float)-maxAccel, (float)maxAccel);
     }
 
 }
