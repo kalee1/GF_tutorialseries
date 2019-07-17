@@ -18,6 +18,14 @@ public class CSVWriter
         catch (IOException e)
         {
             e.printStackTrace();
+            try
+            {
+                csvWriter = new FileWriter("/Users/kalee/Desktop/PurePursuit.csv");
+            }
+            catch (IOException ex)
+            {
+                ex.printStackTrace();
+            }
         }
 
     }

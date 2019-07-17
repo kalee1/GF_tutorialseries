@@ -208,7 +208,7 @@ public class Vehicle
 //        System.out.println("Current Path Segment: " + currentPathSeg );
 //        System.out.println();
 
-        seek(targetVector, thePath.headings.get(currentPathSeg));
+        seek(targetVector, thePath.headings.get(currentPathSeg), thePath.maxspeeds.get(currentPathSeg));
 
         if ( !arriving && PVector.dist(b, normalPoint) < thePath.pointRadius )
         {
@@ -251,7 +251,7 @@ public class Vehicle
 
     // A method that calculates and applies a steering force towards a target
     // STEER = DESIRED MINUS VELOCITY
-    void seek(PVector target, float hdg)
+    void seek(PVector target, float hdg, float maxspd)
     {
         PVector neededVelocity = PVector.sub(target, position);  // A vector pointing from the position to the target
 
@@ -271,16 +271,17 @@ public class Vehicle
         if ( closingDist < 30 && arriving )
         {
             //float m = map(d,0,100,0,maxspeed);
-            float m = (float) (0.0 + (maxspeed - 0.0) * ((v - 0.0) / (30.0 - 0)));
+            float m = (float) (0.0 + (maxspd - 0.0) * ((v - 0.0) / (30.0 - 0)));
             neededVelocity.setMag(m);
 //            System.out.println("Arrive Now! -------------------------------------------");
         }
         else
         {
-            neededVelocity.setMag(maxspeed);
+            neededVelocity.setMag(maxspd);
         }
         PVector neededAccel = PVector.sub(neededVelocity, velocity);
-        neededAccel.limit(maxforce);  // Limit to maximum steering force
+//        neededAccel.limit(maxforce);  // Limit to maximum steering force
+        neededAccel.limit((float)(maxspd*0.2));  // Limit to maximum steering force
         acceleration.add(neededAccel);
 
         float neededAngularVelocity = hdg - heading;
