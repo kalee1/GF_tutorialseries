@@ -21,8 +21,8 @@ public class Vehicle
     PVector position;
     PVector velocity;
     PVector acceleration;
-    float maxforce;    // Maximum steering force
-    float maxspeed;    // Maximum speed
+    float maxAccel;    // Maximum steering force
+    float maxSpeed;    // Maximum speed
 
     float heading;
     float angularVelocity;
@@ -40,10 +40,10 @@ public class Vehicle
     public Vehicle(PVector l, float heading, float ms, float mf)
     {
         position = l.copy();
-        maxspeed = ms;
-        maxforce = mf;
+        maxSpeed = ms;
+        maxAccel = mf;
         acceleration = new PVector(0, 0);
-        velocity = new PVector(-maxspeed, maxspeed);
+        velocity = new PVector(-maxSpeed, maxSpeed);
 
         logFile = new CSVWriter();
         rowData = new ArrayList<String>();
@@ -90,11 +90,6 @@ public class Vehicle
     // This function implements Craig Reynolds' path following algorithm
     // http://www.red3d.com/cwr/steer/PathFollow.html
     //
-    // 1. Check vehicle's future location
-    // 2. Is that future location on the path?  (if yes, do nothing)
-    // 3. Find closest point on the path to the future location (use dot product and project to path segment)
-    // 4. Move that projected point along the path a little bit -- this becomes the target
-    // 5. Seek the target
     //
     public void follow(Path thePath)
     {
@@ -107,22 +102,34 @@ public class Vehicle
             arriving = true;
         }
 
+        // Set up vectors to use for determining which direction the vehicle should go
         PVector targetVector = null;
         PVector a = null;
         PVector b = null;
         PVector normalPoint = null;
 
-        // Pull out 2 points to form the current segment of the path
+        // Pull out 2 points to form the current segment of the path.
+        // a is the beginning point of the path segment
+        // b is the end point of the segment
         a = thePath.points.get(currentPathSeg);
         b = thePath.points.get(currentPathSeg + 1);
 
+        // Calculate how far the vehicl is from the end point of the segment.
+        // This will help me deal with properly transitioning to the next
+        // segment.
         closingDist = PVector.dist(position, b);
 
         //
         // Step 1
         //
-        // Predict position small amt ahead by adding velocity to current position
+        // Predict position on the path a small amount ahead.
+        // The predicted position is tweaked based on a few conditions below.
+        //
         PVector predictedPosition = null;
+
+        // If I am far enough away from b's "pointRadius", then
+        // set my predicted position ahead 5 units in the direction of
+        // my velocity.
         if ( closingDist > thePath.pointRadius )
         {
             PVector velocityCopy = velocity.copy();
@@ -133,10 +140,17 @@ public class Vehicle
         }
         else if ( arriving )
         {
+            // In this case, I am really close to point b, and I am "arriving"
+            // which means that this is the last point on my path.  IN this case,
+            // I want my target position to be the ending point, b.
             predictedPosition = b.copy();
         }
         else
         {
+            // In this case, I am really close to point b, and I am somewhere
+            // in the middle of the path (not at the end).  Since I am really close
+            // to point b, I dont' want to extend my predction out too far,
+            // so I go ahead and set the predicted position ot my current position.
             predictedPosition = position.copy();
         }
         rowData.add(String.valueOf(position.x));
@@ -150,19 +164,30 @@ public class Vehicle
         // Step 2
         //
         // Now we must find the normal to the path from the predicted position.
-
-
-
+        // This will give me the point on the path segment which is closest
+        // to my current position.  This point will help me know where to set
+        // my target next.
+        //
         rowData.add(String.valueOf(closingDist));
 
         normalPoint = getNormalPoint(predictedPosition, a, b);
 
+        // I need to do some checks on the normal point, because it's possible
+        // that the normal calculation gives me a point I don't want to use.
         if (PVector.dist(normalPoint, b) > PVector.dist(a, b))
         {
+            // In this case, my normal point is on the wrong side of the
+            // beginning point a.  This normal point will cause the Vehicle
+            // to steer away from b instead of towards it.  Thus, force the normal
+            // point to be a copy of a.
             normalPoint = a.copy();
         }
         else if (PVector.dist(a, b) < PVector.dist(a, normalPoint))
         {
+            // In this case, my normal point is on the wrong side of the
+            // ending point b.  This normal point will cause the Vehicle
+            // to steer beyond b instead of towards it.  Thus, force the normal
+            // point to be a copy of b so as not to go beyond it.
             normalPoint = b.copy();
         }
 
@@ -170,9 +195,10 @@ public class Vehicle
         rowData.add(String.valueOf(normalPoint.y));
 
         //
-        // Step 4
+        // Step 3
         //
-        // Move that projected point along the path a little bit -- this becomes the target
+        // Now that I have a good normal point defined, use this normal point to
+        // set my target down the path a small amount.
         //
 
         // Initially, set the target to the same as the normal
@@ -184,11 +210,17 @@ public class Vehicle
 
         if (!arriving )
         {
+            // If I am not on the last segment, go ahead and move the target
+            // down the path a little bit.  This encourages a good aggressive
+            // pursuit.
             targetVector.add(pathDir);
 
         }
         else if (closingDist > thePath.pointRadius)
         {
+            // If I am on the final segment, go ahed and set the target down
+            // the path as if I weren't on the final segment, but only if
+            // I am not too close to the final point, b.
             targetVector.add(pathDir);
         }
 
@@ -208,8 +240,19 @@ public class Vehicle
 //        System.out.println("Current Path Segment: " + currentPathSeg );
 //        System.out.println();
 
+        //
+        // Step 4
+        //
+        // Now that I have a good target defined, seek it out.  Also reference the
+        // path segment-specific preferred heading and maxiumum speed. This allows
+        // me to point the robot in a particular direction as well as speed up or
+        // slow down while seeking/pursuing.
+        //
+        maxSpeed = thePath.maxspeeds.get(currentPathSeg);
         seek(targetVector, thePath.headings.get(currentPathSeg), thePath.maxspeeds.get(currentPathSeg));
 
+        // If I'm pretty close to point b, go ahead and advance to the next segment
+        // as long as I am not on the last segment.
         if ( !arriving && PVector.dist(b, normalPoint) < thePath.pointRadius )
         {
             currentPathSeg++;
@@ -239,7 +282,7 @@ public class Vehicle
         // Update velocity
         velocity.add(acceleration);
         // Limit speed
-        velocity.limit(maxspeed);
+        velocity.limit(maxSpeed);
         position.add(velocity);
         // Reset accelertion to 0 each cycle
         acceleration.mult(0);
@@ -249,46 +292,55 @@ public class Vehicle
         heading += angularVelocity;
     }
 
-    // A method that calculates and applies a steering force towards a target
-    // STEER = DESIRED MINUS VELOCITY
+    // A method that calculates and applies steering towards a target
     void seek(PVector target, float hdg, float maxspd)
     {
+        // The difference between my target position and my current position is defined
+        // as my needed velocity.
         PVector neededVelocity = PVector.sub(target, position);  // A vector pointing from the position to the target
 
         //System.out.println(desired);
 
+        // Capture the magnitude of my needed velocity.
         float v = neededVelocity.mag();
 //        System.out.printf("neededvelocity mag: %.2f\n", v);
-        // If the magnitude of desired equals 0, skip out of here
-        // (We could optimize this to check if x and y are 0 to avoid mag() square root
+        // If the magnitude of needed velocity equals 0, skip out of here because I don't need to move.
         if (v == 0)
         {
             return;
         }
 //        System.out.printf("closing distance: %.2f\n", closingDist);
 
-        // Scale with arbitrary damping within 5 cm
+        // If I am close to my end point of the path, I need to slow down.
+        // Scale  my velocity in proportion to my distance from my final target.
         if ( closingDist < 30 && arriving )
         {
-            //float m = map(d,0,100,0,maxspeed);
             float m = (float) (0.0 + (maxspd - 0.0) * ((v - 0.0) / (30.0 - 0)));
             neededVelocity.setMag(m);
 //            System.out.println("Arrive Now! -------------------------------------------");
         }
         else
         {
+            // If I am not close to my target, scale my needed velocity to maximum
             neededVelocity.setMag(maxspd);
         }
+
+        // The difference between my current velocity and my needed velocity is
+        // defined as my needed accleration.
         PVector neededAccel = PVector.sub(neededVelocity, velocity);
 //        neededAccel.limit(maxforce);  // Limit to maximum steering force
-        neededAccel.limit((float)(maxspd*0.2));  // Limit to maximum steering force
+        neededAccel.limit((float)(maxspd*0.2));  // Limit to maximum steering force to be proportional to the max speed.
         acceleration.add(neededAccel);
 
+        // Peform similary velocity and accleration calculations for seeking the
+        // desired heding for this segment.
         float neededAngularVelocity = hdg - heading;
 
-        if ( Math.abs(neededAngularVelocity) < 90)
+        // If I am within 90 degrees of my target, scale down my needed angular velocity
+        // proportional to how far away from my target I am.
+        if ( Math.abs(neededAngularVelocity) < 60)
         {
-            float velMag = (float) (0.0 + (5 - 0.0) * ((Math.abs(neededAngularVelocity) - 0.0) / (30.0 - 0)));
+            float velMag = (float) (0.0 + (6 - 0.0) * ((Math.abs(neededAngularVelocity) - 0.0) / (60.0 - 0)));
             neededAngularVelocity = velMag * Math.signum(neededAngularVelocity);
         }
 
